@@ -27,7 +27,7 @@ def prepare_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Procesamiento completo para crypto.
     """
-    df = add_features_crypto(df)
-    df = create_target_crypto(df)
+    df = add_features(df)
+    df = create_target(df)
     return df
 
