@@ -5,13 +5,13 @@ from models.train_model import train_model
 from evaluation.evaluate import is_model_better
 from deployment.register_model import register_model
 from utils.telegram_notify import send_telegram_message
-from data.fetch_data import get_stock_data
+from data.fetch_data import get_crypto_price
 
 def main():
     send_telegram_message("🚀 Pipeline iniciado!")
 
     clf, acc, f1 = None, None, None
-    df_raw = get_stock_data()
+    df_raw = get_crypto_price()
     df = prepare_features(df_raw)
     
     # Simulamos entrenamiento largo con 3 iteraciones para ejemplo

@@ -2,7 +2,7 @@ import pandas as pd
 
 def add_features(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Agrega variables basadas en medias móviles y diferenciales.
+    Agrega variables basadas en medias móviles y diferenciales para crypto.
     """
     df['return'] = df['Close'].pct_change()
     df['ma_5'] = df['Close'].rolling(window=5).mean()
@@ -25,9 +25,9 @@ def create_target(df: pd.DataFrame) -> pd.DataFrame:
 
 def prepare_features(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Procesamiento completo de ingeniería de características.
+    Procesamiento completo para crypto.
     """
-    df = add_features(df)
-    df = create_target(df)
+    df = add_features_crypto(df)
+    df = create_target_crypto(df)
     return df
 

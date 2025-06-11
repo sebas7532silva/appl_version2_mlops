@@ -1,9 +1,9 @@
-import yfinance as yf
-import pandas as pd
-from datetime import datetime, timedelta
+import requests
 
-def get_stock_data(ticker="GOOG", days=30):
-    df = yf.download(ticker, period="7d", interval="1h", auto_adjust=False)
-    df.dropna(inplace=True)
-    df['Return'] = df['Close'].pct_change().fillna(0)
-    return df
+def get_crypto_price(coin_id="bitcoin"):
+    url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
+    r = requests.get(url)
+    data = r.json()
+    price = data.get(coin_id, {}).get("usd", None)
+    print(f"Precio de {coin_id}: ${price}")
+    return price
