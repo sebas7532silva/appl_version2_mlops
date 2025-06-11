@@ -12,7 +12,7 @@ def test_train_model():
         "target": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
     }
     df = pd.DataFrame(data)
-    clf, acc, f1 = train_model(df)
+    clf, acc, f1, _ = train_model(df)
     assert acc >= 0 and acc <= 1
     assert f1 >= 0 and f1 <= 1
     assert hasattr(clf, "predict")
