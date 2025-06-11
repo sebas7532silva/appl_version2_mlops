@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:                      # Opcional, para que corra cada hora (cron)
+    - cron: '0 * * * *'          # Cada hora a la hora en punto
+
+jobs:
+  build-test-train:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests with pytest
+      run: |
+        pytest tests/
+
+    - name: Run main pipeline script
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: |
+        python main_pipeline.py
+
+    - name: Notify Telegram on success
+      if: success()
+      run: |
+        python utils/telegram_notify.py "✅ Entrenamiento exitoso en CI/CD pipeline"
+
+    - name: Notify Telegram on failure
+      if: failure()
+      run: |
+        python utils/telegram_notify.py "❌ Fallo en CI/CD pipeline, revisar logs"

@@ -1,22 +1,27 @@
+import os
+import sys
 import requests
 
-class TelegramNotifier:
-    def __init__(self, bot_token: str, chat_id: str):
-        self.bot_token = bot_token
-        self.chat_id = chat_id
-        self.api_url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
+def send_telegram_message(message):
+    bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
 
-    def send_message(self, message: str):
-        payload = {
-            'chat_id': self.chat_id,
-            'text': message,
-            'parse_mode': 'Markdown'
-        }
-        try:
-            response = requests.post(self.api_url, data=payload)
-            if response.status_code == 200:
-                print("Mensaje enviado a Telegram.")
-            else:
-                print(f"Error al enviar mensaje: {response.status_code}, {response.text}")
-        except Exception as e:
-            print(f"Exception al enviar mensaje: {e}")
+    if not bot_token or not chat_id:
+        print("Error: TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID no están configurados")
+        return
+
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    payload = {"chat_id": chat_id, "text": message}
+
+    response = requests.post(url, data=payload)
+    if response.status_code == 200:
+        print("Mensaje enviado a Telegram")
+    else:
+        print(f"Error al enviar mensaje: {response.text}")
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        msg = sys.argv[1]
+        send_telegram_message(msg)
+    else:
+        print("No se proporcionó mensaje para Telegram")
