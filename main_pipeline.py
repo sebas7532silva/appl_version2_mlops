@@ -5,15 +5,14 @@ from models.train_model import train_model
 from evaluation.evaluate import is_model_better
 from deployment.register_model import register_model
 from utils.telegram_notify import send_telegram_message
+from data.fetch_data import get_stock_data
 
 def main():
     send_telegram_message("🚀 Pipeline iniciado!")
 
-    # Entrenamiento con notificación periódica
-    start_time = datetime.now()
-    last_notify = start_time
-
     clf, acc, f1 = None, None, None
+    df_raw = get_stock_data()
+    df = prepare_features(df_raw)
     
     # Simulamos entrenamiento largo con 3 iteraciones para ejemplo
     clf, acc, f1 = train_model(df)
