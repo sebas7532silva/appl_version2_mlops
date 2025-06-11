@@ -33,6 +33,7 @@ def train_model(df: pd.DataFrame):
 
         # Log model
         mlflow.sklearn.log_model(clf, artifact_path="model")
+        run_id = run.info.run_id
 
-    return clf, acc, f1
+    return clf, acc, f1, run_id
 
