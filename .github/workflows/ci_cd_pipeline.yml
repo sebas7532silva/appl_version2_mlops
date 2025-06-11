@@ -7,8 +7,8 @@ on:
   pull_request:
     branches:
       - main
-  schedule:                      # Opcional, para que corra cada hora (cron)
-    - cron: '0 * * * *'          # Cada hora a la hora en punto
+  schedule:
+    - cron: '0 * * * *'  # Cada hora a la hora en punto
 
 jobs:
   build-test-train:
@@ -27,6 +27,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Set PYTHONPATH
+      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
 
     - name: Run tests with pytest
       run: |
@@ -48,3 +51,4 @@ jobs:
       if: failure()
       run: |
         python utils/telegram_notify.py "❌ Fallo en CI/CD pipeline, revisar logs"
+
