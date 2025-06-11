@@ -19,7 +19,7 @@ def train_model(df: pd.DataFrame):
 
     clf = RandomForestClassifier(n_estimators=100, random_state=42, max_depth=7)
     
-    with mlflow.start_run():
+    with mlflow.start_run() as run:
         clf.fit(X_train, y_train)
         
         y_pred = clf.predict(X_test)
