@@ -1,6 +1,6 @@
 # 🧠📈 Bitcoin Predictor: MLOps Pipeline con CI/CD y Notificaciones en Tiempo Real 🚀
 
-> Predicción automatizada del comportamiento del Bitcoin usando aprendizaje automático, un pipeline de MLOps completo y alertas directas a Telegram. Todo corre solito... como por arte de magia 🤖✨
+> Predicción automatizada del comportamiento del Bitcoin usando aprendizaje automático, un pipeline de MLOps completo y alertas directas a Telegram. Todo corre solito... como por arte de magia by Freddy Silva🤖✨
 
 ---
 
