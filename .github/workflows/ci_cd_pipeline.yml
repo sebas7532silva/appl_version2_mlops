@@ -8,7 +8,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 * * * *'  # Cada hora a la hora en punto
+    - cron: '0 23 * * *'  # Cada hora a la hora en punto
 
 jobs:
   build-test-train:

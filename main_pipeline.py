@@ -23,6 +23,19 @@ def main():
         send_telegram_message(f"✅ Nuevo modelo registrado con F1={f1:.3f}")
     else:
         send_telegram_message("❌ Modelo no mejora el anterior. No se registra.")
+    
+    try:
+        production_model_uri = "models:/stock_classifier/Staging"
+        model = mlflow.pyfunc.load_model(production_model_uri)
+
+        last_features = df.drop(columns=["target"]).iloc[[-1]]
+        prediction = model.predict(last_features)[0]
+        
+        next_day = (datetime.utcnow().date()).isoformat()
+        pred_msg = f"🔮 Predicción para {next_day}: " + ("📈 SUBE" if prediction == 1 else "📉 BAJA")
+        send_telegram_message(pred_msg)
+    except Exception as e:
+        send_telegram_message(f"⚠️ Error al cargar modelo o hacer la predicción: {str(e)}")
 
     send_telegram_message("🏁 Pipeline finalizado.")
 
